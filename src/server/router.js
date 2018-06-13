@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 'use strict'
 const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
-const path = require('path')
-const favicon = require('serve-favicon')
 const compression = require('compression')
+const favicon = require('serve-favicon')
 const helmet = require('helmet')
+const jwt = require('express-jwt')
+const jwksRsa = require('jwks-rsa')
+const path = require('path')
 const expressLogger = require('./logger/express')
-const user = require('./api/routes/user')
+const User = require('./api/models/user')
 const repo = require('./api/routes/repo')
 
 module.exports.init = (app, conf) => {
@@ -63,32 +64,40 @@ module.exports.init = (app, conf) => {
   // Logger to capture all requests and output them to the console.
   app.use(expressLogger.expressLogger)
 
-  // Middleware which is called on every request.
-  app.use(function (req, res, next) {
-    let token = req.headers['x-access-token']
+  // Authentication middleware. When used, the
+  // Access Token must exist and be verified against
+  // the Auth0 JSON Web Key Set
+  app.use(jwt({
+    // Dynamically provide a signing key
+    // based on the kid in the header and
+    // the signing keys provided by the JWKS endpoint.
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${conf.get('auth.oidc.domain')}/.well-known/jwks.json`
+    }),
 
-    if (!token) {
-      // We do not have x-access-token set and continue.
-      req.user = undefined
-      return next()
-    }
+    // Validate the audience and the issuer.
+    audience: conf.get('auth.oidc.client_id'),
+    issuer: `https://${conf.get('auth.oidc.domain')}/`,
+    algorithms: ['RS256']
+  }))
 
-    // We received x-access-token and treat it as a login request.
-    jwt.verify(token, conf.get('api.credentials.secret'), (error, decoded) => {
-      if (error) {
-        req.user = undefined
-      }
-      // We continue with the next authentication method.
-      req.user = decoded
-      next()
-    })
+  app.use(function checkUserExists (req, res, next) {
+    let newUser = new User(req.user.email)
+
+    newUser
+      .save()
+      .finally(() => {
+        next()
+      })
   })
 
   // Add route which will load our Vue app.
   app.use('/', require('./routes/page'))
 
   // Add routes to middleware.
-  app.use('/', user)
   app.use('/api/v1', repo)
   // app.use('/private/kue-ui', require('kue').app)
 

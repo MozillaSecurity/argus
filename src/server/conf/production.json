@@ -10,9 +10,11 @@
     "port": 6379,
     "host": "localhost"
   },
-  "api": {
-    "credentials": {
-      "secret": "changeme"
+  "auth": {
+    "oidc": {
+      "domain": "yourorg.auth0.com",
+      "client_id": "changeme",
+      "callback_url": "https://localhost:3000/callback"
     }
   },
   "repository": {

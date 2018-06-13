@@ -45,13 +45,25 @@ let conf = convict({
       default: 'q'
     }
   },
-  api: {
-    credentials: {
-      secret: {
-        doc: 'The secret used for JWT.',
+  auth: {
+    oidc: {
+      domain: {
+        doc: 'The OIDC provider domain.',
+        format: String,
+        default: 'yourorg.auth0.com',
+        sensitive: false
+      },
+      client_id: {
+        doc: 'The OIDC client identifier.',
         format: String,
         default: 'changeme',
-        sensitive: true
+        sensitive: false
+      },
+      callback_url: {
+        doc: 'The endpoint to receive callback from the OIDC provider.',
+        format: String,
+        default: 'https://localhost:3000/callback',
+        sensitive: false
       }
     }
   },
