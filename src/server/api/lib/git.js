@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 const git = require('simple-git/promise')
 const gitlog = require('./git/log')
 
-const conf = require('../../conf')
+const conf = require('../../../conf')
 
 exports.clone = (remote, name) => {
   return new Promise((resolve, reject) => {
