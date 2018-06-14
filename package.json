@@ -23,7 +23,7 @@
     "coverage": "export NODE_ENV=test && istanbul cover _mocha server/test -- --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "docs": "documentation build src/server/**/*.js -f html -o docs",
-    "precommit": "npm run test:lint && npm run test:unit"
+    "prepush": "npm run test:lint && npm run test:unit"
   },
   "standard": {
     "ignore": [
