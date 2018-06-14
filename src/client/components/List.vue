@@ -69,7 +69,7 @@
 
 <script>
 import axios from 'axios'
-import Auth from '../lib/auth'
+import auth from '../lib/auth'
 
 export default {
   name: "List",
@@ -88,7 +88,7 @@ export default {
             axios.delete('/api/v1/repo/' + row._id, {
               headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': Auth.getUserAccessToken()
+                'Authorization': auth.getUserAccessToken()
               }}
             ).then((response) => {
               this.$message({
@@ -109,7 +109,7 @@ export default {
       axios.put('/api/v1/repo/' + row._id, null, {
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': Auth.getUserAccessToken()
+          'Authorization': auth.getUserAccessToken()
         }}
       ).then((response) => {
         console.log(response)
@@ -141,7 +141,7 @@ export default {
   created () {
     axios.get('/api/v1/repo/', {
         headers: {
-          'x-access-token': Auth.getUserAccessToken(),
+          'Authorization': auth.getUserAccessToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })

@@ -42,7 +42,7 @@
 
 <script>
 import axios from 'axios'
-import Auth from '../lib/auth'
+import auth from '../lib/auth'
 
 export default {
   name: "Commit",
@@ -56,7 +56,7 @@ export default {
   created () {
     axios.get(`/api/v1/repo/${this.$route.params.id}/${this.$route.params.commit}`, {
         headers: {
-          'x-access-token': Auth.getUserAccessToken(),
+          'Authorization': auth.getUserAccessToken(),
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       })

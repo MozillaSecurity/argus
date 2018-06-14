@@ -50,7 +50,7 @@
 
 <script>
 import axios from 'axios'
-import Auth from '../lib/auth'
+import auth from '../lib/auth'
 
 export default {
   name: "Add",
@@ -88,11 +88,11 @@ export default {
   },
   methods: {
     add_repository (data) {
-      console.log(Auth.getUserAccessToken())
+      console.log(auth.getUserAccessToken())
       axios.post('/api/v1/repo/', data, {
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': Auth.getUserAccessToken()
+          'Authorization': auth.getUserAccessToken()
         }})
         .then((response) => {
           this.$router.push('/list')

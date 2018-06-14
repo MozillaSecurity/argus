@@ -23,20 +23,20 @@
 </template>
 
 <script>
-import Auth from '../lib/auth'
+import auth from '../lib/auth'
 
 export default {
   name: 'AppNavigation',
   data () {
     return {
       brand: 'Argus',
-      user: Auth.getUserAccount(),
+      user: auth.getUserAccount(),
       activeIndex: '1',
     }
   },
   methods: {
     signout () {
-      Auth.signout()
+      auth.logout()
     }
   }
 }
