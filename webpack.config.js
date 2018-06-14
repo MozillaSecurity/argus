@@ -3,6 +3,7 @@ const webpack = require('webpack')
 
 const CompressionPlugin = require('compression-webpack-plugin')
 const UglifyJavaScriptPlugin = require('uglifyjs-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: [
@@ -51,8 +52,12 @@ module.exports = {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/
-    })
+    }),
+    new VueLoaderPlugin()
   ],
+  externals:{
+    "fs": "commonjs fs"
+  },
   devtool: '#eval-source-map',
   devServer: {
     historyApiFallback: true,
