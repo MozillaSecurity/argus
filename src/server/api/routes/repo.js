@@ -2,20 +2,23 @@
 const router = require('express').Router()
 
 const repo = require('../controllers/repo')
+const auth = require('../../lib/auth')
+
+const { checkJwt } = auth
 
 router
   .route('/repo')
-  .get(repo.list)
-  .post(repo.add)
+  .get(checkJwt, repo.list)
+  .post(checkJwt, repo.add)
 
 router
   .route('/repo/:id')
-  .get(repo.commits)
-  .delete(repo.delete)
-  .put(repo.update)
+  .get(checkJwt, repo.commits)
+  .delete(checkJwt, repo.delete)
+  .put(checkJwt, repo.update)
 
 router
   .route('/repo/:id/:commit')
-  .get(repo.commit)
+  .get(checkJwt, repo.commit)
 
 module.exports = router

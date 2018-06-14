@@ -4,11 +4,8 @@ const bodyParser = require('body-parser')
 const compression = require('compression')
 const favicon = require('serve-favicon')
 const helmet = require('helmet')
-const jwt = require('express-jwt')
-const jwksRsa = require('jwks-rsa')
 const path = require('path')
 const expressLogger = require('./logger/express')
-const User = require('./api/models/user')
 const repo = require('./api/routes/repo')
 
 module.exports.init = (app, conf) => {
@@ -63,36 +60,6 @@ module.exports.init = (app, conf) => {
 
   // Logger to capture all requests and output them to the console.
   app.use(expressLogger.expressLogger)
-
-  // Authentication middleware. When used, the
-  // Access Token must exist and be verified against
-  // the Auth0 JSON Web Key Set
-  app.use(jwt({
-    // Dynamically provide a signing key
-    // based on the kid in the header and
-    // the signing keys provided by the JWKS endpoint.
-    secret: jwksRsa.expressJwtSecret({
-      cache: true,
-      rateLimit: true,
-      jwksRequestsPerMinute: 5,
-      jwksUri: `https://${conf.get('auth.oidc.domain')}/.well-known/jwks.json`
-    }),
-
-    // Validate the audience and the issuer.
-    audience: conf.get('auth.oidc.client_id'),
-    issuer: `https://${conf.get('auth.oidc.domain')}/`,
-    algorithms: ['RS256']
-  }))
-
-  app.use(function checkUserExists (req, res, next) {
-    let newUser = new User(req.user.email)
-
-    newUser
-      .save()
-      .finally(() => {
-        next()
-      })
-  })
 
   // Add route which will load our Vue app.
   app.use('/', require('./routes/page'))
