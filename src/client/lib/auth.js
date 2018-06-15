@@ -2,12 +2,11 @@ import auth0 from 'auth0-js'
 import axios from 'axios'
 import Router from 'vue-router'
 
-import conf from '../../conf'
+// import conf from '../../conf'
 
 const router = new Router()
 
 class AuthService {
-
   constructor () {
     this.login = this.login.bind(this)
     this.setSession = this.setSession.bind(this)
@@ -15,11 +14,11 @@ class AuthService {
     this.isAuthenticated = this.isAuthenticated.bind(this)
 
     this.auth0 = new auth0.WebAuth({
-      domain: conf.get('auth.oidc.domain'),
-      clientID: conf.get('auth.oidc.client_id'),
-      redirectUri: conf.get('auth.oidc.callback_url'),
-      audience: `https://${conf.get('auth.oidc.domain')}/userinfo`,
-      responseType: 'token id_token',
+      domain: '', //conf.get('auth.oidc.domain'),
+      clientID: '', //conf.get('auth.oidc.client_id'),
+      redirectUri: '', //conf.get('auth.oidc.callback_url'),
+      audience: '', //`https://${conf.get('auth.oidc.domain')}/userinfo`,
+      responseType: '', //'token id_token',
       scope: 'openid email'
     })
   }
