@@ -3,7 +3,7 @@ const convict = require('convict')
 
 let conf = convict({
   env: {
-    doc: 'The applicaton environment.',
+    doc: 'The application environment.',
     format: ['production', 'development', 'test'],
     default: 'development',
     env: 'NODE_ENV'
@@ -105,7 +105,7 @@ let conf = convict({
   }
 })
 
-process.env.NODE_ENV = conf.get('env')
+//process.env.NODE_ENV = conf.get('env')
 
 conf.loadFile(path.join(__dirname, conf.get('env') + '.json')).validate({allowed: 'strict'})
 
