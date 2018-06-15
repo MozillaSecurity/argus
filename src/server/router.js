@@ -27,19 +27,27 @@ module.exports.init = (app, conf) => {
 
   app.use(favicon(path.join(__dirname, 'public', 'favicon.png')))
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     const webpack = require('webpack')
     const webpackConfig = require('../../webpack.dev')
     const compiler = webpack(webpackConfig)
 
     app.use(require('webpack-dev-middleware')(compiler, {
-      noInfo: true, publicPath: webpackConfig.output.publicPath
+      noInfo: true,
+      publicPath: webpackConfig.output.publicPath
     }))
 
     app.use(require('webpack-hot-middleware')(compiler, {
-      log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
+      log: console.log,
+      path: '/__webpack_hmr',
+      heartbeat: 10 * 1000
     }))
   }
+
+  app.get('/robots.txt', function (req, res) {
+    res.type('text/plain')
+    res.send('User-agent: *\nDisallow: /')
+  })
 
   app.get('*.js', (req, res, next) => {
     req.url = req.url + '.gz'
