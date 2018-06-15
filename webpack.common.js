@@ -4,11 +4,11 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: [
-    'webpack-hot-middleware/client',
     path.join(__dirname, 'src/client/index.js')
   ],
   output: {
-    path: path.join(__dirname, 'src/server/public/javascripts/'),
+    path: path.join(__dirname, 'src/server/public/js/'),
+    publicPath: '/js/',
     filename: 'app.bundle.js'
   },
   resolve: {
@@ -46,8 +46,5 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin()
-  ],
-  externals: {
-    'fs': 'commonjs fs'
-  }
+  ]
 }
