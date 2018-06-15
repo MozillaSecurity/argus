@@ -27,17 +27,19 @@ module.exports.init = (app, conf) => {
 
   app.use(favicon(path.join(__dirname, 'public', 'favicon.png')))
 
-  const webpack = require('webpack')
-  const webpackConfig = require('../../webpack.config')
-  const compiler = webpack(webpackConfig)
+  if (process.env.NODE_ENV === "development") {
+    const webpack = require('webpack')
+    const webpackConfig = require('../../webpack.dev')
+    const compiler = webpack(webpackConfig)
 
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true, publicPath: webpackConfig.output.publicPath
-  }))
+    app.use(require('webpack-dev-middleware')(compiler, {
+      noInfo: true, publicPath: webpackConfig.output.publicPath
+    }))
 
-  app.use(require('webpack-hot-middleware')(compiler, {
-    log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
-  }))
+    app.use(require('webpack-hot-middleware')(compiler, {
+      log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
+    }))
+  }
 
   app.get('*.js', (req, res, next) => {
     req.url = req.url + '.gz'
