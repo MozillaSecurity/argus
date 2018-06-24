@@ -5,13 +5,14 @@ const fs = require('fs-extra')
 const git = require('simple-git/promise')
 const gitlog = require('./git/log')
 
-const conf = require('../../../conf')
+const conf = require('../../conf')
 
 exports.clone = (remote, name) => {
   return new Promise((resolve, reject) => {
     if (fs.existsSync(name)) {
       reject(new Error(`Repository with the name '${name}' does already exists.`))
     }
+    // noinspection JSCheckFunctionSignatures
     git(conf.get('repository.git.path'))
       .clone(remote, name, {depth: conf.get('repository.git.depth')})
       .then(() => resolve())
@@ -38,7 +39,7 @@ exports.log = (name) => {
     repo: path.join(conf.get('repository.git.path'), name),
     number: conf.get('repository.git.commits'),
     fields: ['hash', 'subject', 'authorEmail', 'committerDate'],
-    execOptions: { maxBuffer: conf.get('repository.git.buffer') }
+    execOptions: {maxBuffer: conf.get('repository.git.buffer')}
   }
   return new Promise((resolve, reject) => {
     gitlog(options, function (error, commits) {
@@ -54,8 +55,8 @@ exports.log = (name) => {
 exports.delete = (name) => {
   return new Promise((resolve, reject) => {
     fs.remove(path.join(conf.get('repository.git.path'), name))
-    .then(() => resolve())
-    .catch(error => reject(error))
+      .then(() => resolve())
+      .catch(error => reject(error))
   })
 }
 

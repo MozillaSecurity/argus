@@ -1,6 +1,6 @@
 const winston = require('winston')
 
-const conf = require('../../conf')
+const conf = require('../conf')
 const common = require('../lib/common')
 
 const consoleOptions = {

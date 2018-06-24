@@ -1,13 +1,13 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 
-const common = require('./webpack.common.js')
+const base = require('./webpack.config.base.js')
 
-module.exports = merge(common, {
+module.exports = merge(base, {
+  mode: 'development',
   entry: [
     'webpack-hot-middleware/client'
   ],
-  mode: 'development',
   devServer: {
     historyApiFallback: true,
     noInfo: true,

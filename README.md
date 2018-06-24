@@ -60,7 +60,6 @@ npm run development
 
 | Type   | Path              | Description                |
 | -------|:------------------| :--------------------------|
-| GET    | /signup           | Register                   |
 | POST   | /signin           | Retrieving the JWT         |
 | GET    | /api/v1/repos/    | Get a list of repositories |
 | POST   | /api/v1/repos     | Add a repository           |

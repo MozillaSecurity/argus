@@ -20,7 +20,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="Name" prop="name" required>
-              <el-input v-model="ruleForm.name" autofocus auto-complete="on">
+              <el-input v-model="ruleForm.name" auto-complete="on">
               </el-input>
             </el-form-item>
           </el-col>
@@ -50,10 +50,10 @@
 
 <script>
 import axios from 'axios'
-import auth from '../lib/auth'
 
 export default {
   name: "Add",
+  props: ['auth', 'authenticated'],
   data () {
     return {
       ruleForm: {
@@ -88,11 +88,10 @@ export default {
   },
   methods: {
     add_repository (data) {
-      console.log(auth.getUserAccessToken())
       axios.post('/api/v1/repo/', data, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': auth.getUserAccessToken()
+          'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
         }})
         .then((response) => {
           this.$router.push('/list')

@@ -46,10 +46,10 @@
 
 <script>
 import axios from 'axios'
-import auth from '../lib/auth'
 
 export default {
   name: "Commits",
+  props: ['auth', 'authenticated'],
   data () {
     return {
       tableData: [{}]
@@ -60,8 +60,8 @@ export default {
   created () {
     axios.get('/api/v1/repo/' + this.$route.params.id, {
         headers: {
-          'Authorization': auth.getUserAccessToken(),
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
         }
       })
       .then((response) => {

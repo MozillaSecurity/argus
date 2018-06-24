@@ -50,19 +50,13 @@ let conf = convict({
       domain: {
         doc: 'The OIDC provider domain.',
         format: String,
-        default: 'yourorg.auth0.com',
+        default: '',
         sensitive: false
       },
-      client_id: {
-        doc: 'The OIDC client identifier.',
+      audience: {
+        doc: 'For which API to issue an Access Token.',
         format: String,
-        default: 'changeme',
-        sensitive: false
-      },
-      callback_url: {
-        doc: 'The endpoint to receive callback from the OIDC provider.',
-        format: String,
-        default: 'https://localhost:3000/callback',
+        default: '',
         sensitive: false
       }
     }
@@ -105,7 +99,7 @@ let conf = convict({
   }
 })
 
-//process.env.NODE_ENV = conf.get('env')
+// process.env.NODE_ENV = conf.get('env')
 
 conf.loadFile(path.join(__dirname, conf.get('env') + '.json')).validate({allowed: 'strict'})
 

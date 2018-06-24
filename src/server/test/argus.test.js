@@ -4,7 +4,7 @@
 const chai = require('chai')
 const jwt = require('jsonwebtoken')
 
-const conf = require('../../conf')
+const conf = require('../conf')
 const server = require('../server')
 const User = require('../api/models/user')
 const Repo = require('../api/models/repo')

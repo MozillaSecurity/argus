@@ -1,15 +1,12 @@
 const path = require('path')
 
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-
 module.exports = {
   entry: [
-    path.join(__dirname, 'src/client/index.js')
+    path.join(__dirname, '..', 'src/client/index.js')
   ],
   output: {
-    path: path.join(__dirname, 'src/server/public/js/'),
-    publicPath: '/js/',
-    filename: 'app.bundle.js'
+    path: path.join(__dirname, '..', 'src/server/public/'),
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.js', '.vue'],
@@ -45,6 +42,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new (require('vue-loader/lib/plugin'))(),
+    new (require('html-webpack-plugin'))({
+      filename: 'index.html',
+      template: path.join(__dirname, '..', 'src/client/assets/index.html'),
+      favicon: path.join(__dirname, '..', 'src/client/assets/images/favicon.png'),
+      inject: true
+    })
   ]
 }

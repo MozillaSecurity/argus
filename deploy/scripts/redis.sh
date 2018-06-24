@@ -27,7 +27,7 @@ sudo chmod 600 /etc/redis/redis.conf
 sudo touch /var/log/redis.log
 sudo chown redis:redis /var/log/redis.log
 
-# Systemd
+# systemd
 sudo tee /etc/systemd/system/redis.service << EOF
 [Unit]
 Description=Redis

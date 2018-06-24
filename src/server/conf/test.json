@@ -12,9 +12,8 @@
   },
   "auth": {
     "oidc": {
-      "domain": "yourorg.auth0.com",
-      "client_id": "changeme",
-      "callback_url": "https://localhost:3000/callback"
+      "domain": "xophdware.auth0.com",
+      "audience": "https://xophdware.auth0.com/api/v2/"
     }
   },
   "repository": {
@@ -26,6 +25,6 @@
     }
   },
   "logger": {
-    "path": "logs"
+    "path": "/tmp/logs"
   }
 }

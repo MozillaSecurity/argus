@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 const winston = require('winston')
 const expressWinston = require('express-winston')
 
-const conf = require('../../conf')
+const conf = require('../conf')
 const common = require('../lib/common')
 
 try {

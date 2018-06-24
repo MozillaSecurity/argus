@@ -6,6 +6,10 @@ exports.init = (conf) => {
   return new Promise((resolve, reject) => {
     mongoose.Promise = Promise
 
+    if (process.env.NODE_ENV === 'development') {
+      mongoose.set('debug', true)
+    }
+
     const databaseURI = `mongodb://${conf.get('database.host')}/${conf.get('database.name')}`
 
     mongoose.connection.on('disconnected', () => {
@@ -21,7 +25,7 @@ exports.init = (conf) => {
     })
 
     mongoose
-      .connect(databaseURI, {useMongoClient: true})
+      .connect(databaseURI)
       .then(() => { resolve(mongoose) })
       .catch((error) => { reject(error) })
   })

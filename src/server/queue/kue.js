@@ -1,7 +1,7 @@
 'using strict'
 const kue = require('kue-scheduler')
 const logger = require('../logger')
-const conf = require('../../conf')
+const conf = require('../conf')
 const Repository = require('../api/models/repo')
 
 let queue
