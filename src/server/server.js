@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 'using strict'
 const express = require('express')
+
 const conf = require('./conf')
 const queue = require('./queue/kue')
 const db = require('./db/mongoose')

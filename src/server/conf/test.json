@@ -10,9 +10,10 @@
     "port": 6379,
     "host": "localhost"
   },
-  "api": {
-    "credentials": {
-      "secret": "changeme"
+  "auth": {
+    "oidc": {
+      "domain": "xophdware.auth0.com",
+      "audience": "https://xophdware.auth0.com/api/v2/"
     }
   },
   "repository": {
@@ -24,6 +25,6 @@
     }
   },
   "logger": {
-    "path": "logs"
+    "path": "/tmp/logs"
   }
 }

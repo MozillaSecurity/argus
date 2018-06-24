@@ -22,9 +22,7 @@ Vue.use(ElementUI)
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#EntryPoint',
+  el: '#app',
   router,
-  render (createElement) {
-    return createElement(App)
-  }
+  render: h => h(App)
 })

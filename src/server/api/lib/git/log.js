@@ -186,13 +186,13 @@ function parseCommits (commits, fields, nameStatus) {
         parseNameStatus.pop()
       }
 
-      // Split each line into it's own delimitered array.
+      // Split each line into it's own delimiter-ed array.
       parseNameStatus.forEach(function (d, i) {
         parseNameStatus[i] = d.split(delimiter)
       })
 
       // 0 will always be status, last will be the filename as it is in the commit,
-      // anything inbetween could be the old name if renamed or copied.
+      // anything in-between could be the old name if renamed or copied.
       parseNameStatus = parseNameStatus.reduce(function (a, b) {
         let tempArr = [b[0], b[b.length - 1]]
 

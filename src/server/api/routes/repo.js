@@ -2,21 +2,21 @@
 const router = require('express').Router()
 
 const repo = require('../controllers/repo')
-const user = require('../controllers/user')
+const auth = require('../../lib/auth')
 
 router
   .route('/repo')
-  .get(user.loginRequired, repo.list)
-  .post(user.loginRequired, repo.add)
+  .get(auth.authenticate, repo.list)
+  .post(auth.authenticate, repo.add)
 
 router
   .route('/repo/:id')
-  .get(user.loginRequired, repo.commits)
-  .delete(user.loginRequired, repo.delete)
-  .put(user.loginRequired, repo.update)
+  .get(auth.authenticate, repo.commits)
+  .delete(auth.authenticate, repo.delete)
+  .put(auth.authenticate, repo.update)
 
 router
   .route('/repo/:id/:commit')
-  .get(user.loginRequired, repo.commit)
+  .get(auth.authenticate, repo.commit)
 
 module.exports = router

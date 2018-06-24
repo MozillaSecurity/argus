@@ -10,9 +10,10 @@
     "port": 6379,
     "host": "localhost"
   },
-  "api": {
-    "credentials": {
-      "secret": "changeme"
+  "auth": {
+    "oidc": {
+      "domain": "",
+      "audience": ""
     }
   },
   "repository": {

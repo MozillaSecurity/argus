@@ -8,7 +8,7 @@
         <template slot-scope="props">
           <p>Id: {{ props.row._id }}</p>
           <p>Remote: <a :href="props.row.remote">{{ props.row.remote }}</a></p>
-          <p>Head: {{ props.row.head }}</a></p>
+          <p>Head: {{ props.row.head }}</p>
         </template>
       </el-table-column>
 
@@ -69,10 +69,10 @@
 
 <script>
 import axios from 'axios'
-import Auth from '../lib/auth'
 
 export default {
   name: "List",
+  props: ['auth', 'authenticated'],
   data () {
     return {
       tableData: [{}]
@@ -88,7 +88,7 @@ export default {
             axios.delete('/api/v1/repo/' + row._id, {
               headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': Auth.getUserAccessToken()
+                'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
               }}
             ).then((response) => {
               this.$message({
@@ -109,7 +109,7 @@ export default {
       axios.put('/api/v1/repo/' + row._id, null, {
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': Auth.getUserAccessToken()
+          'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
         }}
       ).then((response) => {
         console.log(response)
@@ -141,8 +141,8 @@ export default {
   created () {
     axios.get('/api/v1/repo/', {
         headers: {
-          'x-access-token': Auth.getUserAccessToken(),
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
         }
       })
       .then((response) => {
@@ -154,11 +154,11 @@ export default {
 
 <style>
 span.status {
-    background-color: green;
-    display: block;
-    height: 8px;
-    width: 8px;
-    border-radius: 4px;
+  background-color: green;
+  display: block;
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
 }
 
 .green { background-color: green }

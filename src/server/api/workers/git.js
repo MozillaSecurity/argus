@@ -138,34 +138,34 @@ tasks.process('pull', 4, function (task, done) {
         .pull(repository.name)
         .then(() => {
           GitManager
-          .log(repository.name)
-          .then((entries) => {
-            let pulledEntries = GitManager.newCommits(entries, repository.head)
-            if (!pulledEntries.length) {
-              return done()
-            }
-            const newCommits = []
-            for (let i = 0; i < pulledEntries.length; i++) { // Commit.insert(entries)
-              let commit = new Commit(pulledEntries[i])
-              commit.save()
-              newCommits.push(commit)
-            }
-            repository
-              .update({
-                $push: {
-                  commits: {
-                    $each: newCommits,
-                    $position: 0
+            .log(repository.name)
+            .then((entries) => {
+              let pulledEntries = GitManager.newCommits(entries, repository.head)
+              if (!pulledEntries.length) {
+                return done()
+              }
+              const newCommits = []
+              for (let i = 0; i < pulledEntries.length; i++) { // Commit.insert(entries)
+                let commit = new Commit(pulledEntries[i])
+                commit.save()
+                newCommits.push(commit)
+              }
+              repository
+                .update({
+                  $push: {
+                    commits: {
+                      $each: newCommits,
+                      $position: 0
+                    }
+                  },
+                  $set: {
+                    head: newCommits[0].hash
                   }
-                },
-                $set: {
-                  head: newCommits[0].hash
-                }
-              })
-              .then(() => { return done() })
-              .catch((error) => { return done(error) })
-          })
-          .catch((error) => { return done(error) })
+                })
+                .then(() => { return done() })
+                .catch((error) => { console.log('AAAAAAAA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'); return done(error) })
+            })
+            .catch((error) => { return done(error) })
         })
         .catch((error) => { return done(error) })
     })

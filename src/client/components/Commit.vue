@@ -42,10 +42,10 @@
 
 <script>
 import axios from 'axios'
-import Auth from '../lib/auth'
 
 export default {
   name: "Commit",
+  props: ['auth', 'authenticated'],
   data () {
     return {
       tableData: [{}]
@@ -55,14 +55,14 @@ export default {
   },
   created () {
     axios.get(`/api/v1/repo/${this.$route.params.id}/${this.$route.params.commit}`, {
-        headers: {
-          'x-access-token': Auth.getUserAccessToken(),
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-      .then((response) => {
-        this.tableData = response.data
-      })
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
+      }
+    })
+    .then((response) => {
+      this.tableData = response.data
+    })
   }
 }
 </script>

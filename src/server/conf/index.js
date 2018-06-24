@@ -3,7 +3,7 @@ const convict = require('convict')
 
 let conf = convict({
   env: {
-    doc: 'The applicaton environment.',
+    doc: 'The application environment.',
     format: ['production', 'development', 'test'],
     default: 'development',
     env: 'NODE_ENV'
@@ -45,13 +45,19 @@ let conf = convict({
       default: 'q'
     }
   },
-  api: {
-    credentials: {
-      secret: {
-        doc: 'The secret used for JWT.',
+  auth: {
+    oidc: {
+      domain: {
+        doc: 'The OIDC provider domain.',
         format: String,
-        default: 'changeme',
-        sensitive: true
+        default: '',
+        sensitive: false
+      },
+      audience: {
+        doc: 'For which API to issue an Access Token.',
+        format: String,
+        default: '',
+        sensitive: false
       }
     }
   },
@@ -93,7 +99,7 @@ let conf = convict({
   }
 })
 
-process.env.NODE_ENV = conf.get('env')
+// process.env.NODE_ENV = conf.get('env')
 
 conf.loadFile(path.join(__dirname, conf.get('env') + '.json')).validate({allowed: 'strict'})
 

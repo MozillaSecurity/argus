@@ -5,7 +5,7 @@
     <a href="https://github.com/mozillasecurity/argus">GitHub Project</a> ·
     <a href="https://github.com/mozillasecurity/argus/issues">Issues</a> ·
     <a href="https://github.com/mozillasecurity/argus/releases">Releases</a><br>
-    Produced by <a href="https://github.com/mozillasecurity"><strong>Mozilla Security</strong></a> 2o17.
+    Produced by <a href="https://github.com/mozillasecurity"><strong>Mozilla Security</strong></a> 2o18.
   </footer>
 </template>
 
