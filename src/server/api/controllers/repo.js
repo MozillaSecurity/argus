@@ -37,16 +37,28 @@ exports.add = (req, res, next) => {
 
 /**
  * Find the requested repository by the provided ID in the database and return the log of commits.
+ * Supports pagination.
  */
 exports.commits = (req, res, next) => {
   const id = req.params.id
+  const limit = Math.abs(req.query.limit) || 100
+  const page = (Math.abs(req.query.page) || 1) - 1
 
   if (!ObjectID.isValid(id)) {
     return next()
   }
 
   Repository.findById(id)
-    .populate('commits')
+    .populate([
+      {
+        path: 'commits',
+        options: {
+          sort: { date: -1 },
+          limit: limit,
+          skip: limit * page
+        }
+      }
+    ])
     .lean()
     .then(repository => {
       if (!repository) {

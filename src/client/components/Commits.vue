@@ -1,6 +1,15 @@
 <template>
   <div class="container">
+    <slot name="pagination" :page="page" :total="total">
+      <el-pagination
+        v-model="page"
+        :total="total"
+        @current-change="getTableData"
+        layout="prev, pager, next"
+      ></el-pagination>
+    </slot>
     <el-table
+      v-loading="loading"
       :data="tableData"
       :default-sort="{prop: 'committerDate', order: 'descending'}"
       style="width: 100%"
@@ -46,21 +55,35 @@ export default {
   props: ['auth', 'authenticated'],
   data() {
     return {
+      page: 1,
+      loading: false,
+      total: 10000,
       tableData: [{}]
     }
   },
-  methods: {},
-  created() {
-    axios
-      .get('/api/v1/repo/' + this.$route.params.id, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${this.auth.getUserAccessToken()}`
-        }
-      })
-      .then(response => {
+  methods: {
+    async getTableData(page) {
+      this.loading = true
+      let reqPage = page || this.page
+      try {
+        console.log(page)
+        let response = await axios.get('/api/v1/repo/' + this.$route.params.id, {
+          params: {
+            page: reqPage
+          },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Bearer ${this.auth.getUserAccessToken()}`
+          }
+        })
         this.tableData = response.data
-      })
+      } finally {
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    this.getTableData()
   }
 }
 </script>
