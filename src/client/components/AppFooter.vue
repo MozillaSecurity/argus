@@ -1,15 +1,23 @@
 <template>
   <footer class="footer">
-    <strong>Argus</strong> is open-source software, licensed under <a href="https://www.mozilla.org/MPL/2.0/">MPL 2.0 License.</a>
-    <br/>
+    <strong>Argus</strong> is open-source software, licensed under
+    <a
+      href="https://www.mozilla.org/MPL/2.0/"
+    >MPL 2.0 License.</a>
+    <br>
     <a href="https://github.com/mozillasecurity/argus">GitHub Project</a> ·
     <a href="https://github.com/mozillasecurity/argus/issues">Issues</a> ·
-    <a href="https://github.com/mozillasecurity/argus/releases">Releases</a><br>
-    Produced by <a href="https://github.com/mozillasecurity"><strong>Mozilla Security</strong></a> 2o18.
+    <a href="https://github.com/mozillasecurity/argus/releases">Releases</a>
+    <br>Produced by
+    <a href="https://github.com/mozillasecurity">
+      <strong>Mozilla Security</strong>
+    </a> 2o18.
   </footer>
 </template>
 
 <style>
+/** @format */
+
 .footer {
   font-size: 13px;
   position: absolute;

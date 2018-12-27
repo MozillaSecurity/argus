@@ -1,3 +1,5 @@
+/** @format */
+
 'use strict'
 const path = require('path')
 
@@ -36,18 +38,12 @@ const fileOptions = {
 }
 
 const expressLogger = expressWinston.logger({
-  transports: [
-    new winston.transports.File(fileOptions),
-    new winston.transports.Console(consoleOptions)
-  ]
+  transports: [new winston.transports.File(fileOptions), new winston.transports.Console(consoleOptions)]
 })
 
 const expressErrorLogger = expressWinston.errorLogger({
-  transports: [
-    new winston.transports.File(fileOptions),
-    new winston.transports.Console(consoleOptions)
-  ],
+  transports: [new winston.transports.File(fileOptions), new winston.transports.Console(consoleOptions)],
   exitOnError: true
 })
 
-module.exports = {expressLogger, expressErrorLogger}
+module.exports = { expressLogger, expressErrorLogger }

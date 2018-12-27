@@ -1,3 +1,5 @@
+/** @format */
+
 'use strict'
 const router = require('express').Router()
 
@@ -15,8 +17,6 @@ router
   .delete(auth.authenticate, repo.delete)
   .put(auth.authenticate, repo.update)
 
-router
-  .route('/repo/:id/:commit')
-  .get(auth.authenticate, repo.commit)
+router.route('/repo/:id/:commit').get(auth.authenticate, repo.commit)
 
 module.exports = router

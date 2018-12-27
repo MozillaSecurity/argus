@@ -1,8 +1,10 @@
+/** @format */
+
 'use strict'
 const mongoose = require('mongoose')
 const logger = require('../logger')
 
-exports.init = (conf) => {
+exports.init = conf => {
   return new Promise((resolve, reject) => {
     mongoose.Promise = Promise
 
@@ -26,8 +28,12 @@ exports.init = (conf) => {
 
     mongoose
       .connect(databaseURI)
-      .then(() => { resolve(mongoose) })
-      .catch((error) => { reject(error) })
+      .then(() => {
+        resolve(mongoose)
+      })
+      .catch(error => {
+        reject(error)
+      })
   })
 }
 

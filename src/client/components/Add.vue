@@ -9,19 +9,17 @@
         status-icon
         ref="ruleForm"
         label-width="20px"
-        class="ruleForm elem-form-content">
-
+        class="ruleForm elem-form-content"
+      >
         <el-row :gutter="20">
           <el-col :span="18">
             <el-form-item label="Remote URL" prop="remote" required>
-              <el-input v-model="ruleForm.remote" auto-complete="on" placeholder="http://">
-              </el-input>
+              <el-input v-model="ruleForm.remote" auto-complete="on" placeholder="http://"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="Name" prop="name" required>
-              <el-input v-model="ruleForm.name" auto-complete="on">
-              </el-input>
+              <el-input v-model="ruleForm.name" auto-complete="on"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -29,19 +27,14 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label="Branch" prop="branch">
-              <el-input disabled v-model="ruleForm.branch" placeholder="master">
-              </el-input>
+              <el-input disabled v-model="ruleForm.branch" placeholder="master"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-form-item>
-          <el-button type="primary" icon="el-icon-upload" @click="submitForm('ruleForm')">
-            Add
-          </el-button>
-          <el-button icon="el-icon-circle-close-outline" @click="resetForm('ruleForm')">
-            Reset
-          </el-button>
+          <el-button type="primary" icon="el-icon-upload" @click="submitForm('ruleForm')">Add</el-button>
+          <el-button icon="el-icon-circle-close-outline" @click="resetForm('ruleForm')">Reset</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -49,12 +42,14 @@
 </template>
 
 <script>
+/** @format */
+
 import axios from 'axios'
 
 export default {
-  name: "Add",
+  name: 'Add',
   props: ['auth', 'authenticated'],
-  data () {
+  data() {
     return {
       ruleForm: {
         remote: '',
@@ -67,59 +62,63 @@ export default {
             required: true,
             message: 'Provide a unique name for this repository.',
             trigger: 'blur'
-          },
+          }
         ],
         remote: [
           {
             required: true,
             message: 'You must provide a remote URL to the repository.',
             trigger: 'blur'
-          },
+          }
         ],
         branch: [
           {
             required: false,
             message: 'The default branch is "master".',
             trigger: 'blur'
-          },
+          }
         ]
       }
     }
   },
   methods: {
-    add_repository (data) {
-      axios.post('/api/v1/repo/', data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.auth.getUserAccessToken()}`
-        }})
-        .then((response) => {
+    add_repository(data) {
+      axios
+        .post('/api/v1/repo/', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${this.auth.getUserAccessToken()}`
+          }
+        })
+        .then(response => {
           this.$router.push('/list')
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error)
         })
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.add_repository({
-            'name': this.ruleForm.name,
-            'remote': this.ruleForm.remote
+            name: this.ruleForm.name,
+            remote: this.ruleForm.remote
           })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     }
   }
 }
 </script>
 
 <style>
+/** @format */
+
 .elem-form-content {
   width: 500px;
 }

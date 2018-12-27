@@ -7,13 +7,15 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
-      router>
+      router
+    >
       <el-menu-item index="1" :route="{name:'Dashboard'}">Argus</el-menu-item>
       <el-menu-item index="2" :route="{name:'List'}">Observation</el-menu-item>
       <el-menu-item index="3" :route="{name:'Add'}">Add</el-menu-item>
       <el-submenu index="4" style="float: right;">
         <template slot="title" v-if="authenticated">
-          <img :src="profile.picture" class="avatar"> <em>{{ profile.given_name }}</em>
+          <img :src="profile.picture" class="avatar">
+          <em>{{ profile.given_name }}</em>
         </template>
 
         <el-menu-item index="4-3" :route="{name: 'Profile'}" v-if="authenticated">
@@ -24,21 +26,19 @@
           <i class="fa fa-sign-out"></i> Sign-out
         </el-menu-item>
 
-        <el-menu-item index="4-2" @click="signin()" v-if="!authenticated">
-          Sign-in
-        </el-menu-item>
-
+        <el-menu-item index="4-2" @click="signin()" v-if="!authenticated">Sign-in</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
+/** @format */
+
 export default {
   name: 'AppNavigation',
   props: ['auth', 'authenticated'],
-  data () {
-
+  data() {
     if (this.auth.getUserAccount()) {
       this.$nextTick(() => {
         this.profile = JSON.parse(this.auth.getUserAccount())
@@ -48,14 +48,14 @@ export default {
     return {
       brand: 'Argus',
       profile: {},
-      activeIndex: '1',
+      activeIndex: '1'
     }
   },
   methods: {
-    signout () {
+    signout() {
       this.auth.logout()
     },
-    signin () {
+    signin() {
       this.auth.login()
     }
   }
@@ -63,6 +63,8 @@ export default {
 </script>
 
 <style>
+/** @format */
+
 .avatar {
   display: inline-block;
   width: 25px;

@@ -3,18 +3,21 @@
 </template>
 
 <script>
-  export default {
-    name: 'Callback',
-    props: ['auth'],
-    data () {
-      this.auth.handleAuthentication()
-      return {
-      }
-    }
+/** @format */
+
+export default {
+  name: 'Callback',
+  props: ['auth'],
+  data() {
+    this.auth.handleAuthentication()
+    return {}
   }
+}
 </script>
 
 <style>
+/** @format */
+
 .loader,
 .loader:after {
   border-radius: 50%;

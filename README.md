@@ -23,10 +23,6 @@ This app follows the MEVN stack.
 
 ## Client WebApp
 
-**NOTE:** This project does not make use of Babel or any other transpiler. Most features it makes
-use of are available natively in Firefox. Though you must enable the property
-`dom.moduleScripts.enabled` in order to make the 'import' statement accessible.
-
 ## Prerequisites
 
 [Redis](https://redis.io/download) and

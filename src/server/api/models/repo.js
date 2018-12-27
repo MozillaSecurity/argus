@@ -1,3 +1,5 @@
+/** @format */
+
 'use strict'
 const mongoose = require('mongoose')
 
@@ -29,19 +31,23 @@ let RepositorySchema = new mongoose.Schema({
     default: Date.now
   },
   status: {
-    type: [{
-      type: String,
-      enum: ['queued', 'pending', 'active', 'inactive', 'failed']
-    }],
+    type: [
+      {
+        type: String,
+        enum: ['queued', 'pending', 'active', 'inactive', 'failed']
+      }
+    ],
     default: 'queued'
   },
-  commits: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Commit'
-  }]
+  commits: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Commit'
+    }
+  ]
 })
 
-RepositorySchema.methods.toJSON = function () {
+RepositorySchema.methods.toJSON = function() {
   let obj = this.toObject()
   obj.commits = obj.commits.length
   return obj

@@ -1,3 +1,5 @@
+/** @format */
+
 'use strict'
 const path = require('path')
 const bodyparser = require('body-parser')
@@ -17,15 +19,17 @@ module.exports.init = (app, conf) => {
 
   app.set('json spaces', 4)
 
-  app.use(compression({
-    level: 9,
-    filter: (req, res) => {
-      if (req.headers['x-no-compression']) {
-        return false
+  app.use(
+    compression({
+      level: 9,
+      filter: (req, res) => {
+        if (req.headers['x-no-compression']) {
+          return false
+        }
+        return compression.filter(req, res)
       }
-      return compression.filter(req, res)
-    }
-  }))
+    })
+  )
 
   app.use(helmet())
 
@@ -34,16 +38,20 @@ module.exports.init = (app, conf) => {
     const webpackConfig = require('../../build/webpack.config.dev')
     const compiler = webpack(webpackConfig)
 
-    app.use(require('webpack-dev-middleware')(compiler, {
-      noInfo: true,
-      publicPath: webpackConfig.output.publicPath
-    }))
+    app.use(
+      require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: webpackConfig.output.publicPath
+      })
+    )
 
-    app.use(require('webpack-hot-middleware')(compiler, {
-      log: console.log,
-      path: '/__webpack_hmr',
-      heartbeat: 10 * 1000
-    }))
+    app.use(
+      require('webpack-hot-middleware')(compiler, {
+        log: console.log,
+        path: '/__webpack_hmr',
+        heartbeat: 10 * 1000
+      })
+    )
   }
 
   app.get('/robots.txt', (req, res) => {
@@ -58,11 +66,13 @@ module.exports.init = (app, conf) => {
   app.get('*.css', encodeGzip('text/css'))
 
   // Required for the Auth0 callback.
-  app.use(history({
-    disableDotRule: true,
-    verbose: true,
-    index: '/'
-  }))
+  app.use(
+    history({
+      disableDotRule: true,
+      verbose: true,
+      index: '/'
+    })
+  )
 
   app.use(require('express').static(path.join(__dirname, 'public')))
 
@@ -80,7 +90,7 @@ module.exports.init = (app, conf) => {
   app.use(logger.expressErrorLogger)
 
   // Catch 404 and forward to error handler.
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     const err = new Error(`${req.originalUrl} was not found.`)
     err.status = 404
     next(err)
@@ -88,13 +98,13 @@ module.exports.init = (app, conf) => {
 
   if (conf.get('env') === 'development' || conf.get('env') === 'test') {
     app.use((err, req, res, next) => {
-      res.status(err.status || 500).json({error: {message: err.message}})
+      res.status(err.status || 500).json({ error: { message: err.message } })
     })
   }
   if (conf.get('env') === 'production') {
     // Production error handler.
     app.use((err, req, res, next) => {
-      res.status(err.status || 500).json({message: err.message, error: {}})
+      res.status(err.status || 500).json({ message: err.message, error: {} })
     })
   }
 }

@@ -1,3 +1,5 @@
+/** @format */
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -71,7 +73,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  router.options.routes.forEach((route) => {
+  router.options.routes.forEach(route => {
     if (to.matched[0].path === route.path && route.secure) {
       if (!auth.isAuthenticated()) {
         auth.login()

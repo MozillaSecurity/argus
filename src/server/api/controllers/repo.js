@@ -1,7 +1,9 @@
+/** @format */
+
 'use strict'
 const _ = require('lodash')
 
-const {ObjectID} = require('mongodb')
+const { ObjectID } = require('mongodb')
 
 const GitManager = require('../lib/git')
 const Repository = require('../models/repo')
@@ -12,9 +14,8 @@ const GitWorker = require('../workers/git')
  * Provide a list of every repository entry stored in the database.
  */
 exports.list = (req, res, next) => {
-  Repository
-    .find()
-    .then((repositories) => res.json(repositories))
+  Repository.find()
+    .then(repositories => res.json(repositories))
     .catch(next)
 }
 
@@ -27,9 +28,8 @@ exports.add = (req, res, next) => {
 
   new Repository(meta)
     .save()
-    .then((repository) => {
-      GitWorker
-        .startTaskClone(repository)
+    .then(repository => {
+      GitWorker.startTaskClone(repository)
       res.json(repository)
     })
     .catch(next)
@@ -45,11 +45,10 @@ exports.commits = (req, res, next) => {
     return next()
   }
 
-  Repository
-    .findById(id)
+  Repository.findById(id)
     .populate('commits')
     .lean()
-    .then((repository) => {
+    .then(repository => {
       if (!repository) {
         return next()
       }
@@ -69,17 +68,18 @@ exports.commit = (req, res, next) => {
     return next()
   }
 
-  Repository
-    .findById(id)
+  Repository.findById(id)
     .populate('commits')
     .lean()
-    .then((repository) => {
+    .then(repository => {
       if (!repository) {
         return next()
       }
-      res.json(repository.commits.filter((commit) => {
-        return commit._id.toString() === commitId
-      }))
+      res.json(
+        repository.commits.filter(commit => {
+          return commit._id.toString() === commitId
+        })
+      )
     })
     .catch(next)
 
@@ -108,9 +108,8 @@ exports.update = (req, res, next) => {
     return next()
   }
 
-  Repository
-    .findById(id)
-    .then((repository) => {
+  Repository.findById(id)
+    .then(repository => {
       if (!repository) {
         return next()
       }
@@ -131,17 +130,14 @@ exports.delete = (req, res, next) => {
     return next()
   }
 
-  Repository
-    .findByIdAndRemove(id)
-    .then((repository) => {
+  Repository.findByIdAndRemove(id)
+    .then(repository => {
       if (!repository) {
         return next()
       }
-      Commit
-        .remove({_id: {$in: repository.commits}})
+      Commit.remove({ _id: { $in: repository.commits } })
         .then(() => {
-          GitManager
-            .delete(repository.name)
+          GitManager.delete(repository.name)
             .then(() => res.json(repository))
             .catch(next)
         })

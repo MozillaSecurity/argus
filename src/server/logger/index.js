@@ -1,3 +1,5 @@
+/** @format */
+
 const winston = require('winston')
 
 const conf = require('../conf')
@@ -12,9 +14,7 @@ const consoleOptions = {
 }
 
 const logger = new winston.Logger({
-  transports: [
-    new winston.transports.Console(consoleOptions)
-  ]
+  transports: [new winston.transports.Console(consoleOptions)]
 })
 
 module.exports = logger

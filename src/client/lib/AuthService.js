@@ -1,4 +1,8 @@
-/* eslint-disable no-undef */
+/**
+ * eslint-disable no-undef
+ * @format
+ */
+
 import auth0 from 'auth0-js'
 import EventEmitter from 'eventemitter3'
 
@@ -6,7 +10,7 @@ import router from '../router'
 import { AUTH_CONFIG } from '../conf/auth0'
 
 export default class AuthService {
-  constructor () {
+  constructor() {
     this.login = this.login.bind(this)
     this.setSession = this.setSession.bind(this)
     this.logout = this.logout.bind(this)
@@ -23,14 +27,14 @@ export default class AuthService {
     })
   }
 
-  login () {
+  login() {
     // noinspection JSCheckFunctionSignatures
     this.auth0.authorize()
     // Go to the main page in our app, otherwise we will see the 404 page briefly before the auth0 redirect.
     router.replace('/')
   }
 
-  handleAuthentication () {
+  handleAuthentication() {
     // noinspection JSCheckFunctionSignatures
     this.auth0.parseHash((error, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -43,7 +47,7 @@ export default class AuthService {
     })
   }
 
-  setSession (authResult) {
+  setSession(authResult) {
     // Set the time that the Access Token will expire at
     let expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime())
 
@@ -58,10 +62,10 @@ export default class AuthService {
         localStorage.setItem('profile', JSON.stringify(profile))
       }
     })
-    this.authNotifier.emit('authChange', {authenticated: true})
+    this.authNotifier.emit('authChange', { authenticated: true })
   }
 
-  logout () {
+  logout() {
     localStorage.removeItem('access_token')
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
@@ -72,17 +76,17 @@ export default class AuthService {
     router.replace('/')
   }
 
-  isAuthenticated () {
+  isAuthenticated() {
     // Check whether the current time is past the Access Token's expiry time.
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
     return new Date().getTime() < expiresAt
   }
 
-  getUserAccount () {
+  getUserAccount() {
     return localStorage.getItem('profile')
   }
 
-  getUserAccessToken () {
+  getUserAccessToken() {
     return localStorage.getItem('access_token')
   }
 }

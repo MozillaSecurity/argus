@@ -1,16 +1,14 @@
 <template>
   <div id="App">
-    <AppNavigation
-      :auth="auth"
-      :authenticated="authenticated"/>
-    <router-view
-      :auth="auth"
-      :authenticated="authenticated"/>
+    <AppNavigation :auth="auth" :authenticated="authenticated"/>
+    <router-view :auth="auth" :authenticated="authenticated"/>
     <AppFooter/>
   </div>
 </template>
 
 <script>
+/** @format */
+
 import AppNavigation from './AppNavigation'
 import AppFooter from './AppFooter'
 
@@ -25,7 +23,7 @@ export default {
     AppNavigation,
     AppFooter
   },
-  data () {
+  data() {
     authNotifier.on('authChange', authState => {
       this.authenticated = authState.authenticated
     })
@@ -42,11 +40,13 @@ export default {
 </script>
 
 <style>
+/** @format */
+
 @font-face {
   font-family: 'Karla';
   font-style: normal;
   font-weight: 300;
-  src: url('../assets/fonts/Karla-Regular.ttf') format('truetype')
+  src: url('../assets/fonts/Karla-Regular.ttf') format('truetype');
 }
 
 html {

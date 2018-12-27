@@ -41,44 +41,48 @@
 </template>
 
 <script>
-  export default {
-    name: 'Profile',
-    props: ['auth', 'authenticated'],
-    data () {
-      if (this.auth.getUserAccount()) {
-        this.$nextTick(() => {
-          this.profile = JSON.parse(this.auth.getUserAccount())
-        })
-      }
-      return {
-        profile: {}
-      }
+/** @format */
+
+export default {
+  name: 'Profile',
+  props: ['auth', 'authenticated'],
+  data() {
+    if (this.auth.getUserAccount()) {
+      this.$nextTick(() => {
+        this.profile = JSON.parse(this.auth.getUserAccount())
+      })
+    }
+    return {
+      profile: {}
     }
   }
+}
 </script>
 
 <style scoped>
-  .elem-form-container {
-    padding-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/** @format */
 
-  .elem-form-content {
-    width: 900px;
-  }
+.elem-form-container {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .avatar {
-    display: inline-block;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: no-repeat center center;
-    background-size: cover;
-  }
+.elem-form-content {
+  width: 900px;
+}
 
-  .grid-content {
-    padding: 5px;
-  }
+.avatar {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: no-repeat center center;
+  background-size: cover;
+}
+
+.grid-content {
+  padding: 5px;
+}
 </style>

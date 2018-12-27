@@ -1,33 +1,37 @@
-/*
-  Copyright (c) 2016, Dominic Harrington
-                2017, Christoph Diehl
+/**
+ * /*
+ *   Copyright (c) 2016, Dominic Harrington
+ *                 2017, Christoph Diehl
+ *
+ *   All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ *   ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *   ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *   The views and conclusions contained in the software and documentation are those
+ *   of the authors and should not be interpreted as representing official policies,
+ *   either expressed or implied, of the FreeBSD Project.
+ *
+ * @format
+ */
 
-  All rights reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-
-  1. Redistributions of source code must retain the above copyright notice, this
-     list of conditions and the following disclaimer.
-  2. Redistributions in binary form must reproduce the above copyright notice,
-     this list of conditions and the following disclaimer in the documentation
-     and/or other materials provided with the distribution.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-  The views and conclusions contained in the software and documentation are those
-  of the authors and should not be interpreted as representing official policies,
-  either expressed or implied, of the FreeBSD Project.
-*/
 'using strict'
 const exec = require('child_process').exec
 const execSync = require('child_process').execSync
@@ -58,9 +62,9 @@ const notOptFields = ['status', 'files']
 /*
 Add optional parameter to command.
 */
-function addOptional (command, options) {
+function addOptional(command, options) {
   const cmdOptional = ['author', 'since', 'after', 'until', 'before', 'committer']
-  for (let i = cmdOptional.length; i--;) {
+  for (let i = cmdOptional.length; i--; ) {
     if (options[cmdOptional[i]]) {
       command += ' --' + cmdOptional[i] + '="' + options[cmdOptional[i]] + '"'
     }
@@ -68,7 +72,7 @@ function addOptional (command, options) {
   return command
 }
 
-function gitlog (options, cb) {
+function gitlog(options, cb) {
   if (!options.repo) {
     throw new Error('A repository is required!')
   }
@@ -111,7 +115,7 @@ function gitlog (options, cb) {
   command += ' --pretty="@begin@'
 
   // Iterating through the fields and adding them to the custom format.
-  options.fields.forEach(function (field) {
+  options.fields.forEach(function(field) {
     if (!fields[field] && field.indexOf(notOptFields) === -1) {
       throw new Error('Unknown field: ' + field)
     }
@@ -152,7 +156,7 @@ function gitlog (options, cb) {
     return commits
   }
 
-  exec(command, options.execOptions, function (err, stdout, stderr) {
+  exec(command, options.execOptions, function(err, stdout, stderr) {
     debug('stdout', stdout)
     let commits = stdout.split('\n@begin@')
     if (commits.length === 1 && commits[0] === '') {
@@ -168,12 +172,12 @@ function gitlog (options, cb) {
   process.chdir(prevWorkingDir)
 }
 
-function fileNameAndStatus (options) {
+function fileNameAndStatus(options) {
   return options.nameStatus ? ' --name-status' : ''
 }
 
-function parseCommits (commits, fields, nameStatus) {
-  return commits.map(function (commit) {
+function parseCommits(commits, fields, nameStatus) {
+  return commits.map(function(commit) {
     const parts = commit.split(commit.includes('\n\n') ? '@end@\n\n' : '@end@')
 
     commit = parts[0].split(delimiter)
@@ -187,13 +191,13 @@ function parseCommits (commits, fields, nameStatus) {
       }
 
       // Split each line into it's own delimiter-ed array.
-      parseNameStatus.forEach(function (d, i) {
+      parseNameStatus.forEach(function(d, i) {
         parseNameStatus[i] = d.split(delimiter)
       })
 
       // 0 will always be status, last will be the filename as it is in the commit,
       // anything in-between could be the old name if renamed or copied.
-      parseNameStatus = parseNameStatus.reduce(function (a, b) {
+      parseNameStatus = parseNameStatus.reduce(function(a, b) {
         let tempArr = [b[0], b[b.length - 1]]
 
         // If any files in between loop through them.
@@ -220,19 +224,19 @@ function parseCommits (commits, fields, nameStatus) {
 
     if (nameStatus) {
       // Create arrays for non optional fields if turned on.
-      notOptFields.forEach(function (d) {
+      notOptFields.forEach(function(d) {
         parsed[d] = []
       })
     }
 
-    commit.forEach(function (commitField, index) {
+    commit.forEach(function(commitField, index) {
       if (fields[index]) {
         parsed[fields[index]] = commitField
       } else {
         if (nameStatus) {
           const pos = (index - fields.length) % notOptFields.length
 
-          debug('nameStatus', (index - fields.length), notOptFields.length, pos, commitField)
+          debug('nameStatus', index - fields.length, notOptFields.length, pos, commitField)
           parsed[notOptFields[pos]].push(commitField)
         }
       }

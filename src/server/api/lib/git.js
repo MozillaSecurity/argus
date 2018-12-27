@@ -1,3 +1,5 @@
+/** @format */
+
 'using strict'
 const path = require('path')
 
@@ -14,13 +16,13 @@ exports.clone = (remote, name) => {
     }
     // noinspection JSCheckFunctionSignatures
     git(conf.get('repository.git.path'))
-      .clone(remote, name, {depth: conf.get('repository.git.depth')})
+      .clone(remote, name, { depth: conf.get('repository.git.depth') })
       .then(() => resolve())
-      .catch((error) => reject(error))
+      .catch(error => reject(error))
   })
 }
 
-exports.pull = (name) => {
+exports.pull = name => {
   return new Promise((resolve, reject) => {
     const repodir = path.join(conf.get('repository.git.path'), name)
     if (!fs.existsSync(repodir)) {
@@ -29,20 +31,20 @@ exports.pull = (name) => {
     git(repodir)
       .pull()
       .then(() => resolve())
-      .catch((error) => reject(error))
+      .catch(error => reject(error))
   })
 }
 
-exports.log = (name) => {
+exports.log = name => {
   // Using 'gitlog' here which has better built-in capabilities for parsing the files of a commit.
   const options = {
     repo: path.join(conf.get('repository.git.path'), name),
     number: conf.get('repository.git.commits'),
     fields: ['hash', 'subject', 'authorEmail', 'committerDate'],
-    execOptions: {maxBuffer: conf.get('repository.git.buffer')}
+    execOptions: { maxBuffer: conf.get('repository.git.buffer') }
   }
   return new Promise((resolve, reject) => {
-    gitlog(options, function (error, commits) {
+    gitlog(options, function(error, commits) {
       if (error) {
         reject(error)
       } else {
@@ -52,7 +54,7 @@ exports.log = (name) => {
   })
 }
 
-exports.delete = (name) => {
+exports.delete = name => {
   return new Promise((resolve, reject) => {
     fs.remove(path.join(conf.get('repository.git.path'), name))
       .then(() => resolve())
