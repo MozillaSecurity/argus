@@ -8,14 +8,3 @@ after_success:
 services:
 - redis-server
 - mongodb
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: docs
-  github_token: "$GH_TOKEN"
-  name: posidron
-  on:
-    branch: master
-env:
-  global:
-    secure: XqnegA/eqoM1R12jb7fw5/zC+aTkEVrhN9YUuQukqbPIcjntSt1B5L/XxJTRClDWf5P0PH78zNlcYEM44AeYgoAgIi2QLgRSWwuEB+n8q+aXOlolcc/eOsDTbnthxrVLl5i6PFSFcdnkxpteCw4P400prP55ni2hUVEf1V0F6nUCFpYq7sVOGpOawLEV7btI3kR9oAnsNgYSz/J7GjbJ2lonXUqdz9fUTZFuecil8H8f/+z+YmUrBW0+Ou21c7NPTneAFz+98U+mvuuK3HxiwuLwoxym3RSQMhSEDYf4gS+SZynnBZ7frcx3Rl7sOBTUdk/ChD6mTEzQpMPbgv/fjFb9NaWUAtEG5OViBnvEEXXPvwSvQe5xHu2bAXIc75gz4976GxBrX2U9zPH1BeLF1/3pQW9qkqBGQQwR5ggxxre/TRimCEuZeYA1vIuAGm9Xd0/eRLkaVJbGUgOxU2YnaZZzpXkv+QUzq5mQP6iVZa1oWRPpGVslM/3NqzSThCUB+RSCOufNkcntLlmB0K3iN8+bocpfFbVCuPls6JUR72gkBLkYS1mJS0D4DLmHOntuiHSgcDbMNGMNEo3qXi9Tn3OkV+GJh7rs/vFQ5gCU9sr+k7m88i3eGTooze1UMGk36QvdkTLYcvMcnTnN5+kaH9W5Ai3d8ZokiTI5U/TvnOA=
